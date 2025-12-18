@@ -1,14 +1,16 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaMusic } from "react-icons/fa"; // music icon
+import { FaMusic } from "react-icons/fa";
+import audioFile from "../assets/audio.mp3";
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
 
-  // Play/pause audio when isPlaying changes
   useEffect(() => {
+    if (!audioRef.current) return;
+
     if (isPlaying) {
-      audioRef.current.play();
+      audioRef.current.play().catch(() => {});
     } else {
       audioRef.current.pause();
     }
@@ -19,7 +21,8 @@ export default function MusicPlayer() {
       <button
         onClick={() => setIsPlaying(!isPlaying)}
         className={`
-          flex items-center justify-center w-14 h-14 rounded-full bg-pink-400 text-white shadow-lg
+          flex items-center justify-center w-14 h-14 rounded-full
+          bg-pink-400 text-white shadow-lg
           hover:bg-pink-500 transition-colors
           ${isPlaying ? "animate-pulse" : ""}
         `}
@@ -28,8 +31,7 @@ export default function MusicPlayer() {
       </button>
 
       <audio ref={audioRef} loop>
-        <source src="/audio.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
+        <source src={audioFile} type="audio/mpeg" />
       </audio>
     </div>
   );
