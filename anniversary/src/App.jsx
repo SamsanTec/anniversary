@@ -8,6 +8,8 @@ import Footer from "./components/Footer";
 import Snow from "./components/Snow";
 import MusicPlayer from "./components/MusicPlayer";
 import DailyNote from "./components/DailyNote";
+import DanceForYou from "./components/DanceForYou";
+import ApartTogether from "./components/ApartTogether";
 
 export default function App() {
   const [activeMemory, setActiveMemory] = useState(null);
@@ -21,6 +23,8 @@ export default function App() {
       <DailyNote />
       <MemoryGame />
       <Letter />
+      <DanceForYou />
+      <ApartTogether />
       <Future />
       <Footer />
     </div>
