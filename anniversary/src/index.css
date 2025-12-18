@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+
+body {
+  font-family: 'MedievalSharp', cursive;
+}
+
+/* Optional: smooth font */
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.perspective {
+  perspective: 1000px;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+.rotateY-180 {
+  transform: rotateY(180deg);
+}
+.pb-full {
+  padding-bottom: 100%;
+}
