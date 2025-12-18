@@ -7,6 +7,7 @@ import Future from "./components/Future";
 import Footer from "./components/Footer";
 import Snow from "./components/Snow";
 import MusicPlayer from "./components/MusicPlayer";
+import DailyNote from "./components/DailyNote";
 
 export default function App() {
   const [activeMemory, setActiveMemory] = useState(null);
@@ -17,6 +18,7 @@ export default function App() {
       <Hero />
       <MusicPlayer />
       <Memories activeMemory={activeMemory} setActiveMemory={setActiveMemory} />
+      <DailyNote />
       <MemoryGame />
       <Letter />
       <Future />

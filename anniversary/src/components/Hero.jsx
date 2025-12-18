@@ -21,24 +21,27 @@ export default function Hero() {
         ))}
       </div>
 
-      {/* Hero text */}
-      <motion.h1
-        className="relative text-5xl md:text-6xl font-bold text-rose-600 mb-6 z-10"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        Happy 1-Year Anniversary ❤️
-      </motion.h1>
+    <motion.h1
+  className="relative text-5xl md:text-6xl font-bold text-rose-600 mb-6 z-10"
+  initial={{ opacity: 0, y: 40 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 1 }}
+>
+  One Year With You ❤️
+</motion.h1>
 
-      <motion.p
-        className="relative z-10 text-xl md:text-2xl text-gray-700 max-w-xl"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-      >
-        A little surprise for you… to celebrate our amazing first year together.
-      </motion.p>
+<motion.p
+  className="relative z-10 text-xl md:text-2xl text-gray-700 max-w-xl"
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 1.5 }}
+>
+  A whole year of us. Of laughter, late nights, silly fights, quiet moments, and
+  love that somehow keeps growing.  
+  This little space is just for you. A reminder that choosing you was, and always
+  will be, my favorite decision.
+</motion.p>
+
 
       {/* CSS animation for hearts */}
       <style>

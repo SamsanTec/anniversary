@@ -1,86 +1,135 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Typewriter } from "react-simple-typewriter";
+import Confetti from "react-confetti";
+import emailjs from "@emailjs/browser";
+import useSound from "use-sound";
+import successSound from "../assets/success.mp3";
 
-const letterText = `
-I am the luckiest guy in the world to have found you. Truly. 
-With you, I’ve made so many unforgettable memories, and somehow you’ve given my life a purpose I didn’t even know I was missing.
-
-I want to be your partner forever. You’re the first person I want to talk to when I start my day, and the last person I want to talk to when I end it. Even when we’re not talking, you’re always on my mind. There isn’t a single thing that doesn’t remind me of you.
-
-I can’t wait for the day we’re living together, annoying each other and irritating you for the rest of our lives. I can’t wait to get 'beaten up' by you when you’re mad, and I want to always be there to take care of you when you need me, especially during moments like your periods.
-
-I want to spoil you. Take you out even when I’m tired. Bring you random gifts just because. Ordering things from Amazon is thoughtful, sure, but it’s not always romantic enough.
-
-I was actually going to buy you a card today. Then I thought about making this website instead. It helps with my typing skills and all. Just kidding. The truth is, I love you so much that a card just wouldn’t be enough to hold it all. And honestly, you can’t put snowfall animations on a card, can you?
-
-I did take some help from ChatGPT, of course. It took time to troubleshoot everything and figure it out, but it was worth it if it made you smile even a little.
-
-I can’t wait to see you in a week. I really, really can’t. I love you ❤️
+const letterText = ` One more thing before you go, send me a snap of your smiling face, Wait!!!!!!!!!!, I have one more thing to tell you, I love youuuuuuu!
 `;
 
 export default function LetterWithChallenge() {
   const [revealed, setRevealed] = useState(false);
   const [input, setInput] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+
+  const [playSuccess] = useSound(successSound, { volume: 0.4 });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Simple "challenge": she has to type "I love you" to reveal
-    if (input.trim().toLowerCase() === "i love you") {
-      setRevealed(true);
-    } else {
-      alert("Oops! Try again 😉");
+    if (sent) return;
+
+    if (input.trim().toLowerCase() !== "i love you") {
+      alert("Close… but not quite 😉");
+      return;
     }
+
+    setSending(true);
+
+    emailjs
+      .send(
+        "service_gkb2cp9",
+        "template_ma63y5m",
+        {
+          from_name: "Akash",
+          message: letterText,
+          to_email: "bhanguakash27@gmail.com",
+        },
+        "agDbdLNNY5ufzLI48"
+      )
+      .then(() => {
+        setSending(false);
+        setSent(true);
+        setRevealed(true);
+        setStatusMessage("The letter is sent. Check your email 💌");
+        playSuccess();
+        if (navigator.vibrate) navigator.vibrate(200);
+      })
+      .catch(() => {
+        setSending(false);
+        alert("Email failed 😭 but the love is still valid");
+      });
   };
 
   return (
-    <section className="py-20 px-6 flex justify-center bg-gradient-to-b from-purple-50 to-purple-100 min-h-screen">
+    <section className="min-h-screen py-20 px-6 flex justify-center items-center bg-gradient-to-b from-purple-50 to-purple-100 relative">
+      {sent && <Confetti />}
+
       {!revealed ? (
         <motion.div
-          className="max-w-3xl p-10 bg-white rounded-3xl shadow-2xl border border-purple-200 text-center"
+          className="w-full max-w-md p-8 bg-white rounded-3xl shadow-2xl border border-purple-200 text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
         >
-          <h2 className="text-4xl font-bold text-purple-700 mb-8">
-            A Little Challenge 💌
+          <h2 className="text-3xl font-bold text-purple-700 mb-6">
+            One Small Challenge 💌
           </h2>
-          <p className="text-gray-800 text-lg mb-6 font-serif">
-            To reveal my letter, type "I love you" below:
+
+          <div className="w-full bg-purple-200 rounded-full h-3 mb-4 overflow-hidden">
+            <motion.div
+              className="bg-pink-500 h-full"
+              initial={{ width: 0 }}
+              animate={{
+                width: `${Math.min(
+                  (input.toLowerCase().length / "i love you".length) * 100,
+                  100
+                )}%`,
+              }}
+              transition={{ duration: 0.3 }}
+            />
+          </div>
+
+          <p className="text-gray-700 mb-6 font-serif">
+            Type <b>I love you</b> to unlock the letter.
           </p>
-          <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
+
+          <form onSubmit={handleSubmit} className="space-y-4">
             <input
-              type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Type here..."
-              className="px-4 py-2 border border-purple-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-400 w-64 text-center"
+              placeholder="Type here…"
+              disabled={sending}
+              className="w-full px-4 py-2 border border-purple-300 rounded-lg text-center focus:ring-2 focus:ring-purple-400"
             />
+
             <button
               type="submit"
-              className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+              disabled={sending}
+              className="w-full py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-60"
             >
-              Reveal
+              {sending ? "Sending…" : "Reveal"}
             </button>
           </form>
         </motion.div>
       ) : (
         <motion.div
-          className="max-w-3xl p-10 bg-white rounded-3xl shadow-2xl border border-purple-200 text-center"
+          className="w-full max-w-3xl p-10 bg-white rounded-3xl shadow-2xl border border-purple-200 text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
         >
-          <h2 className="text-4xl font-bold text-purple-700 mb-8">My Love ❤️</h2>
+          <h2 className="text-4xl font-bold text-purple-700 mb-4">
+            My Love ❤️
+          </h2>
+
+          {statusMessage && (
+            <motion.p
+              className="mb-6 text-green-600 font-medium"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+            >
+              {statusMessage}
+            </motion.p>
+          )}
+
           <p className="text-gray-800 text-lg leading-relaxed font-serif">
             <Typewriter
               words={[letterText]}
-              loop={1}
               cursor
               cursorStyle="✨"
-              typeSpeed={50}
-              deleteSpeed={0}
-              delaySpeed={1000}
+              typeSpeed={45}
             />
           </p>
         </motion.div>
