@@ -92,7 +92,7 @@ export default function ApartTogether() {
           {/* Front */}
           <div style={{ ...faceStyle, backgroundColor: "#E9D5FF" }}>
             <h3 className="text-3xl font-bold text-purple-700 mb-6 text-center">
-              Before She Was in My Life
+              Before you were in My Life
             </h3>
             <ul className="space-y-4 text-gray-700 font-serif text-lg">
               <li>Days felt busy but empty</li>
@@ -115,7 +115,7 @@ export default function ApartTogether() {
             }}
           >
             <h3 className="text-3xl font-bold text-rose-600 mb-6 text-center">
-              After She Became Part of My Life
+              After you Became Part of My Life
             </h3>
             <ul className="space-y-4 text-gray-700 font-serif text-lg">
               <li>Ordinary days suddenly mattered</li>
