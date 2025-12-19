@@ -39,7 +39,7 @@ export default function Hero() {
   A whole year of us. Of laughter, late nights, silly fights, quiet moments, and
   love that somehow keeps growing.  
   This little space is just for you. A reminder that choosing you was, and always
-  will be, my favorite decision.
+  will be, my favorite decision. Please click on the music button in the bottom right corner for some romantic music. 
 </motion.p>
 
 

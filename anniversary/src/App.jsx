@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CountdownGate from "./components/CountdownGate";
 import Hero from "./components/hero";
 import Memories from "./components/memories";
 import MemoryGame from "./components/MemoryGame";
@@ -13,9 +14,11 @@ import ApartTogether from "./components/ApartTogether";
 
 export default function App() {
   const [activeMemory, setActiveMemory] = useState(null);
+  const unlockTime = new Date(2025, 11, 18, 23, 38).getTime(); 
 
   return (
     <div className="relative overflow-x-hidden">
+      <CountdownGate unlockTime={unlockTime}>
       <Snow />
       <Hero />
       <MusicPlayer />
@@ -27,6 +30,7 @@ export default function App() {
       <ApartTogether />
       <Future />
       <Footer />
+      </CountdownGate>
     </div>
   );
 }
