@@ -14,7 +14,7 @@ import ApartTogether from "./components/ApartTogether";
 
 export default function App() {
   const [activeMemory, setActiveMemory] = useState(null);
-  const unlockTime = new Date(2025, 11, 18, 23, 38).getTime(); 
+  const unlockTime = new Date(2025, 11, 24, 0, 0).getTime(); 
 
   return (
     <div className="relative overflow-x-hidden">
