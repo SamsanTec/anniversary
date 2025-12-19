@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import Confetti from "react-confetti";
+import useSound from "use-sound";
+import popSound from "../assets/pop.mp3";
 
 const plans = [
   { text: "Travel together ✈️", emoji: "🌍" },
@@ -17,17 +20,23 @@ const plans = [
 
 export default function Future() {
   const [revealed, setRevealed] = useState(plans.map(() => false));
+  const [playPop] = useSound(popSound, { volume: 0.5 });
 
   const toggleReveal = (index) => {
-    setRevealed((prev) =>
-      prev.map((r, i) => (i === index ? !r : r))
-    );
+    setRevealed((prev) => {
+      const newState = [...prev];
+      newState[index] = !newState[index];
+      if (!prev[index]) playPop(); // play sound on first reveal
+      return newState;
+    });
   };
+
+  const allRevealed = revealed.every(Boolean);
 
   return (
     <section className="py-20 px-6 bg-gradient-to-b from-rose-50 to-pink-50 relative overflow-hidden">
-      {/* Floating emojis */}
-      {[...Array(25)].map((_, i) => (
+      {/* Floating sparkles */}
+      {[...Array(20)].map((_, i) => (
         <span
           key={i}
           className="absolute text-pink-400 text-xl animate-float"
@@ -45,38 +54,45 @@ export default function Future() {
         Our Future Plans 💖
       </h2>
 
-      <ul className="max-w-xl mx-auto space-y-6 text-gray-700 text-xl">
+      <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {plans.map((plan, i) => (
-          <motion.li
+          <div
             key={i}
-            className="cursor-pointer p-4 bg-white rounded-xl shadow-md flex items-center justify-between hover:scale-105 transition-transform duration-300"
+            className="perspective cursor-pointer"
             onClick={() => toggleReveal(i)}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: i * 0.15 }}
           >
-            {revealed[i] ? (
-              <>
-                <span>{plan.text}</span>
-                <span className="text-2xl">{plan.emoji}</span>
-              </>
-            ) : (
-              <span className="text-gray-400">Click to reveal ✨</span>
-            )}
-          </motion.li>
-        ))}
-      </ul>
+            <motion.div
+              className="relative w-full h-36 rounded-xl transform-style-preserve-3d transition-transform duration-100000"
+              animate={{ rotateY: revealed[i] ? 180 : 0 }}
+            >
+              {/* FRONT */}
+              <div className="absolute w-full h-full bg-white rounded-xl shadow-lg flex items-center justify-center backface-hidden">
+                <span className="text-gray-400">Click to reveal ✨</span>
+              </div>
 
-      {/* Floating emojis animation */}
+              {/* BACK */}
+              <div className="absolute w-full h-full bg-pink-100 rounded-xl shadow-lg flex flex-col items-center justify-center backface-hidden rotate-y-180">
+                <span className="text-xl">{plan.text}</span>
+                <span className="text-3xl mt-2">{plan.emoji}</span>
+              </div>
+            </motion.div>
+          </div>
+        ))}
+      </div>
+
+      {allRevealed && <Confetti />}
+
       <style>{`
+        .perspective { perspective: 1200px; }
+        .transform-style-preserve-3d { transform-style: preserve-3d; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .backface-hidden { backface-visibility: hidden; }
         @keyframes float {
           0% { transform: translateY(0px); opacity: 0; }
           50% { opacity: 1; }
           100% { transform: translateY(-20px); opacity: 0; }
         }
-        .animate-float {
-          animation: float 6s linear infinite;
-        }
+        .animate-float { animation: float 6s linear infinite; }
       `}</style>
     </section>
   );
